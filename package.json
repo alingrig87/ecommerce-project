@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/alingrig87/node-js-basics/issues"
   },
-  "homepage": "https://github.com/alingrig87/node-js-basics#readme"
+  "homepage": "https://github.com/alingrig87/node-js-basics#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }
