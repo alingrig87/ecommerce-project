@@ -12,9 +12,19 @@ app.use(bodyParser.json());
 app.use('/products', productsRouter);
 
 // Connect to DataBase
-mongoose.connect(process.env.MONGODB_URI, () =>
-	console.log('Connected to DB!!')
-);
+const connectDB = async () => {
+	try {
+		await mongoose.connect(process.env.MONGODB_URI, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
+
+		console.log('MongoDB connected!!');
+	} catch (err) {
+		console.log('Failed to connect to MongoDB', err);
+	}
+};
+connectDB();
 
 // start the server - listen on port 3000
 app.listen(3000);

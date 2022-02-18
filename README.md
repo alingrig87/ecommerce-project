@@ -54,7 +54,7 @@ app.use('/products', () => {
 4. Go to Database Access and create new user and password the DB
 5. Go to Network Access and setup up the IP rules(0.0.0.0/0 recommended)
 6. Go to Database -> Connection -> Application add copy paste the mongoURI connection url
-   mongodb+srv://alin:<password>@cluster0.f4v5k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+   mongodb+srv://alin:<password>@cluster0.f4v5k.mongodb.net/products?retryWrites=true&w=majority
 7. The password must not be added to versioned files, so must be hidden
 8. Install dotenv:
    `npm install dotenv`
@@ -64,13 +64,13 @@ app.use('/products', () => {
 ```javascript
 // Connect to DataBase
 mongoose.connect(
-	'mongodb+srv://<user_name>:<password>@cluster0.f4v5k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+	'mongodb+srv://<user_name>:<password>@cluster0.f4v5k.mongodb.net/products_db?retryWrites=true&w=majority',
 	() => console.log('Connected to DB!!')
 );
 ```
 
 10. Add a new ".env" file that will not be pushed to github and the following content(replace <user_name> and <password> with your credentials from mongoDB):
-    `MONGODB_URI=mongodb+srv://<user_name>:<password>@cluster0.f4v5k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    `MONGODB_URI=mongodb+srv://<user_name>:<password>@cluster0.f4v5k.mongodb.net/products_db?retryWrites=true&w=majority`
 
 11. Import and use dotenv config in app.js
 
@@ -162,7 +162,48 @@ app.use(bodyParser.json());
 import Post from '../models/Product.js';
 
 router.post('/', (req, res) => {
-	const product = req.body;
 	console.log(req.body);
 });
 ```
+
+### Add the POST route
+
+```javascript
+router.post('/', async (req, res) => {
+	const product = new Product({
+		name: req.body.name,
+		price: req.body.price,
+		imageURL: req.body.imageURL,
+		description: req.body.description,
+	});
+
+	// save to DB
+	try {
+		const savedProduct = await product.save();
+		res.json(savedProduct);
+	} catch (error) {
+		res.json({ message: error });
+	}
+});
+```
+
+Tip: for solving timeout error add async await connection to MongoDB:
+
+```javascript
+// Connect to DataBase
+const connectDB = async () => {
+	try {
+		await mongoose.connect(process.env.MONGODB_URI, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
+
+		console.log('MongoDB connected!!');
+	} catch (err) {
+		console.log('Failed to connect to MongoDB', err);
+	}
+};
+connectDB();
+```
+
+[Timeout error - details](https://dev.to/arunkc/solve-mongooseerror-operation-x-find-buffering-timed-out-after-10000ms-3d3j)
