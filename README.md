@@ -110,3 +110,59 @@ import productsRouter from './routes/products.js';
 // Middlewares
 app.use('/products', productsRouter);
 ```
+
+### Create ProductsSchema
+
+Describe how the the Products will look in Mongo DB
+
+1. Create models/Posts.js file and add:
+
+```javascript
+import mongoose from 'mongoose';
+
+const ProductSchema = mongoose.Schema({
+	id: {
+		type: Number,
+		required: true,
+	},
+	name: {
+		type: String,
+		required: true,
+	},
+	price: {
+		type: Number,
+		required: true,
+	},
+	description: {
+		type: String,
+		required: true,
+	},
+	date: {
+		type: Date,
+		default: Date.now,
+	},
+});
+
+export default mongoose.model('Product', ProductSchema);
+```
+
+2. Install body parser
+   `npm install body-parser`
+
+3. Import and use body-parser in app.js
+
+```javascript
+import bodyParser from 'body-parser';
+app.use(bodyParser.json());
+```
+
+4. Create a POST route using the created model in routes/product.js
+
+```javascript
+import Post from '../models/Product.js';
+
+router.post('/', (req, res) => {
+	const product = req.body;
+	console.log(req.body);
+});
+```

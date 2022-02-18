@@ -1,11 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 import 'dotenv/config';
 import productsRouter from './routes/products.js';
 
 const app = express();
 
 // Middlewares
+app.use(bodyParser.json());
+
 app.use('/products', productsRouter);
 
 // Connect to DataBase
