@@ -32,3 +32,15 @@ app.listen(3000);
 ```
 
 8. Open a browser and go to [localhost:3000](http://localhost:3000)
+
+### Middleware
+
+Middleware - a function that will be executed when a route is hit
+
+```javascript
+// Middlewares
+app.use('/products', () => {
+	console.log('Middleware example');
+});
+// a specific logic can be added when /products route is used
+```

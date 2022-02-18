@@ -2,6 +2,11 @@ import express from 'express';
 
 const app = express();
 
+// Middlewares
+app.use('/products', () => {
+	console.log('Middleware example');
+});
+
 // ROUTES
 app.get('/', (req, res) => {
 	res.send('Hello first NodeJS Route');
