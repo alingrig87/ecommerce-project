@@ -81,3 +81,32 @@ mongoose.connect(process.env.MONGODB_URI, () =>
 	console.log('Connected to DB!!')
 );
 ```
+
+### Create Routes
+
+1. Create new "routes" folder
+2. Create new "products.js" file in routes folder
+3. Add the following code to "products.js" fils:
+
+```javascript
+import express from 'express';
+
+const router = express.Router();
+
+router.get('/', (req, res) => res.send('Products endpoint!'));
+
+export default router;
+```
+
+4. In "app.js" import the productsRouter (for default exports we can use an alias directly without using "as" syntax)
+
+```javascript
+import productsRouter from './routes/products.js';
+```
+
+5. Remove previously added routes from app.js and use the imported version as middleware:
+
+```javascript
+// Middlewares
+app.use('/products', productsRouter);
+```

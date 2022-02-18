@@ -1,22 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import productsRouter from './routes/products.js';
 
 const app = express();
 
 // Middlewares
-app.use('/products', () => {
-	console.log('Middleware example');
-});
-
-// ROUTES
-app.get('/', (req, res) => {
-	res.send('Hello first NodeJS Route');
-});
-
-app.get('/products', (req, res) => {
-	res.send('Products endoint!!');
-});
+app.use('/products', productsRouter);
 
 // Connect to DataBase
 mongoose.connect(process.env.MONGODB_URI, () =>
