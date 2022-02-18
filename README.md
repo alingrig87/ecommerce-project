@@ -44,3 +44,40 @@ app.use('/products', () => {
 });
 // a specific logic can be added when /products route is used
 ```
+
+### Connect to Data Base (MongoDB)
+
+1. Install mongoose
+   `npm install mongoose`
+2. Create a new account on [Mongo DB Atlas](https://www.mongodb.com/)
+3. Create a new "products" DB
+4. Go to Database Access and create new user and password the DB
+5. Go to Network Access and setup up the IP rules(0.0.0.0/0 recommended)
+6. Go to Database -> Connection -> Application add copy paste the mongoURI connection url
+   mongodb+srv://alin:<password>@cluster0.f4v5k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+7. The password must not be added to versioned files, so must be hidden
+8. Install dotenv:
+   `npm install dotenv`
+
+9. Connect to the DB using the following code added to app.js(replace <user_name> and <password> with your credentials from mongoDB):
+
+```javascript
+// Connect to DataBase
+mongoose.connect(
+	'mongodb+srv://<user_name>:<password>@cluster0.f4v5k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+	() => console.log('Connected to DB!!')
+);
+```
+
+10. Add a new ".env" file that will not be pushed to github and the following content(replace <user_name> and <password> with your credentials from mongoDB):
+    `MONGODB_URI=mongodb+srv://<user_name>:<password>@cluster0.f4v5k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+
+11. Import and use dotenv config in app.js
+
+```javascript
+import 'dotenv/config';
+// Connect to DataBase
+mongoose.connect(process.env.MONGODB_URI, () =>
+	console.log('Connected to DB!!')
+);
+```
