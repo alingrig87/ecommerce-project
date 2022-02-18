@@ -207,3 +207,41 @@ connectDB();
 ```
 
 [Timeout error - details](https://dev.to/arunkc/solve-mongooseerror-operation-x-find-buffering-timed-out-after-10000ms-3d3j)
+
+### Add Patch by ID, Delete by ID routes
+
+```javascript
+//delete product by id
+router.delete('/:productId', async (req, res) => {
+	console.log(req.params.productId);
+	try {
+		const removedProduct = await Product.remove({ _id: req.params.productId });
+		res.json(removedProduct);
+	} catch (error) {
+		res.json({ message: error });
+	}
+});
+
+// update a product
+router.patch('/:productId', async (req, res) => {
+	console.log(req.params.productId);
+	try {
+		const updatedProduct = await Product.updateOne(
+			{ _id: req.params.productId },
+			{ $set: { name: req.body.name } }
+		);
+		res.json(updatedProduct);
+	} catch (error) {
+		res.json({ message: error });
+	}
+});
+```
+
+### Deploy on Heroku
+
+`const PORT = process.env.PORT || 3000;`
+
+- create new app in heroku
+- link the github repo
+- configure MONGODB_URI env variable on Heroku
+- The app is up and running -> [here](https://ecommerce17-server.herokuapp.com/)

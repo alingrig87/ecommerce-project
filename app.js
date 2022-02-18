@@ -14,6 +14,10 @@ const app = express();
 // Middlewares
 app.use(bodyParser.json());
 
+app.get('/', async (req, res) => {
+	res.send('<h1>Ecommerce 17 Node JS Server</h1>');
+});
+
 app.use('/products', productsRouter);
 
 // Connect to DataBase
@@ -32,4 +36,6 @@ const connectDB = async () => {
 connectDB();
 
 // start the server - listen on port 3000
-app.listen(3000);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT);
